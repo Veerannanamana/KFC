@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KIET Food Feedback</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  /* Mobile first approach */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin: 20px 0;
+  font-weight: bold;
+  color: #222;
+}
+
+.form-container {
+  margin: 20px auto;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column; /* stack inputs vertically on mobile */
+  align-items: center;
+  width: 95%;
+  max-width: 400px;
+}
+
+input, select, button {
+  padding: 10px;
+  margin: 8px 0;
+  width: 90%;   /* full width on mobile */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.charts-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 30px auto;
+  width: 95%;
+}
+
+.chart-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  width: 45%;    /* two charts per row on small screens */
+  max-width: 250px;
+  box-sizing: border-box;
+}
+
+.chart-card h2 {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 10px;
+  text-align: center;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 5px;
+}
+
+/* Canvas responsive */
+canvas {
+  width: 100% !important;   /* fills parent card */
+  height: auto !important;
+}
+
+/* For very small screens (phones) */
+@media (max-width: 500px) {
+  .chart-card {
+    width: 80%;   /* stack charts vertically */
+  }
+
+  .form-container input,
+  .form-container select,
+  .form-container button {
+    width: 75%;    /* full width */
+  }
+}
+
+</style>
+</head>
+<body>
+
+<h1>KIET Food Feedback System</h1>
+
+<div class="form-container">
+  <input type="text" id="roll" placeholder="Enter Roll Number">
+  <select id="meal">
+      <option>Meal</option>
+      <option value="Breakfast">Breakfast</option>
+      <option value="Lunch">Lunch</option>
+      <option value="Snacks">Snacks</option>
+      <option value="Dinner">Dinner</option>
+  </select>
+  <select id="rating">
+      <option>Review</option>
+      <option value="Good">Good</option>
+      <option value="Average">Average</option>
+      <option value="Bad">Bad</option>
+  </select>
+  <button onclick="submitFeedback()">Submit</button>
+</div>
+<h2>Today's Date: <span id="current-date"></span></h2>
+
+<div class="charts-container">
+  <div class="chart-card">
+    <h2>Breakfast Feedback</h2>       <!-- 🟢 This is the heading label -->
+    <canvas id="BreakfastChart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h2>Lunch Feedback</h2>            <!-- 🟢 Same here -->
+    <canvas id="LunchChart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h2>Snacks Feedback</h2>
+    <canvas id="SnacksChart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h2>Dinner Feedback</h2>
+    <canvas id="DinnerChart"></canvas>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
