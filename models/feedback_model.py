@@ -1,20 +1,18 @@
-from utils.db_connection import get_feedback_collection
-from datetime import datetime
-
-collection = get_feedback_collection()
+from utils.db_connection import feedback_collection
+from datetime import date
 
 def save_feedback(roll_no, meal, rating):
-    today = datetime.now().strftime("%Y-%m-%d")
-    doc = {
+    """Save a feedback document to MongoDB with today's date."""
+    feedback_collection.insert_one({
         "roll_no": roll_no,
         "meal": meal,
         "rating": rating,
-        "date": today
-    }
-    collection.insert_one(doc)
+        "date": str(date.today())
+    })
     return True
 
-def get_today_feedback():
-    today = datetime.now().strftime("%Y-%m-%d")
-    docs = list(collection.find({"date": today}, {"_id":0}))
-    return docs
+def get_today_feedback(date_filter=None):
+    """Fetch all feedback documents for a given date (default: today)."""
+    today = date_filter if date_filter else str(date.today())
+    feedbacks = list(feedback_collection.find({"date": today}))
+    return feedbacks
